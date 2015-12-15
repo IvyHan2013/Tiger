@@ -1,0 +1,258 @@
+# Before canonicalization: 
+SEQ(
+ SEQ(
+  EXP(
+   CONST 0),
+  MOVE(
+   MEM(
+    BINOP(PLUS,
+     TEMP $fp,
+     CONST -4)),
+   ESEQ(
+    SEQ(
+     MOVE(
+      TEMP t32,
+      CALL(
+       NAME allocRecord,
+        CONST 0,
+        CONST 8)),
+     SEQ(
+      MOVE(
+       MEM(
+        BINOP(PLUS,
+         TEMP t32,
+         CONST 0)),
+       NAME L11),
+      MOVE(
+       MEM(
+        BINOP(PLUS,
+         TEMP t32,
+         CONST 4)),
+       CONST 1000))),
+    TEMP t32))),
+ SEQ(
+  MOVE(
+   MEM(
+    BINOP(PLUS,
+     MEM(
+      BINOP(PLUS,
+       TEMP $fp,
+       CONST -4)),
+     CONST 0)),
+   NAME L12),
+  EXP(
+   MEM(
+    BINOP(PLUS,
+     TEMP $fp,
+     CONST -4)))))
+# After canonicalization: 
+MOVE(
+ TEMP t33,
+ BINOP(PLUS,
+  TEMP $fp,
+  CONST -4))
+MOVE(
+ TEMP t32,
+ CALL(
+  NAME allocRecord,
+   CONST 0,
+   CONST 8))
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP t32,
+   CONST 0)),
+ NAME L11)
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP t32,
+   CONST 4)),
+ CONST 1000)
+MOVE(
+ MEM(
+  TEMP t33),
+ TEMP t32)
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   MEM(
+    BINOP(PLUS,
+     TEMP $fp,
+     CONST -4)),
+   CONST 0)),
+ NAME L12)
+EXP(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)))
+# Basic Blocks: 
+LABEL L14
+MOVE(
+ TEMP t33,
+ BINOP(PLUS,
+  TEMP $fp,
+  CONST -4))
+MOVE(
+ TEMP t32,
+ CALL(
+  NAME allocRecord,
+   CONST 0,
+   CONST 8))
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP t32,
+   CONST 0)),
+ NAME L11)
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP t32,
+   CONST 4)),
+ CONST 1000)
+MOVE(
+ MEM(
+  TEMP t33),
+ TEMP t32)
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   MEM(
+    BINOP(PLUS,
+     TEMP $fp,
+     CONST -4)),
+   CONST 0)),
+ NAME L12)
+EXP(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)))
+JUMP(
+ NAME L13)
+LABEL L13
+# Trace Scheduled: 
+LABEL L14
+MOVE(
+ TEMP t33,
+ BINOP(PLUS,
+  TEMP $fp,
+  CONST -4))
+MOVE(
+ TEMP t32,
+ CALL(
+  NAME allocRecord,
+   CONST 0,
+   CONST 8))
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP t32,
+   CONST 0)),
+ NAME L11)
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP t32,
+   CONST 4)),
+ CONST 1000)
+MOVE(
+ MEM(
+  TEMP t33),
+ TEMP t32)
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   MEM(
+    BINOP(PLUS,
+     TEMP $fp,
+     CONST -4)),
+   CONST 0)),
+ NAME L12)
+EXP(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)))
+JUMP(
+ NAME L13)
+LABEL L13
+# Instructions: 
+
+#Begin to save calleeSaves!!
+addi $sp,$sp,-4
+sw $s0,-4($sp)
+sw $s1,-8($sp)
+sw $s2,-12($sp)
+sw $s3,-16($sp)
+sw $s4,-20($sp)
+sw $s5,-24($sp)
+sw $s6,-28($sp)
+sw $s7,-32($sp)
+sw $fp,-36($sp)
+sw $ra,-40($sp)
+addi $sp,$sp,-40
+#calleeSaves have been saved!
+
+add $fp,$sp,44
+L14:
+addi t34,$fp,-4
+add  t33, t34,  $zero
+li t35,8
+add $a0,t35,$zero
+addi $sp,$sp,-4
+li t36,0
+sw t36,0($sp)
+jal  allocRecord
+addi $sp,$sp,4
+add  t32, $v0,  $zero
+addi t37,t32,0
+la t40,L11
+add t38,t40, $zero
+sw t38,0( t37)
+addi t41,t32,4
+li t44,1000
+add t42,t44, $zero
+sw t42,0( t41)
+add t45,t33,$zero
+add t46,t32,$zero
+sw t46,0(t45)
+lw t50,-4($fp)
+addi t47,t50,0
+la t51,L12
+add t48,t51, $zero
+sw t48,0( t47)
+lw t52,-4($fp)
+j L13
+L13:
+
+#Begin to fetch calleeSaves!
+addi $sp,$sp,40
+lw $s0,-4($sp)
+lw $s1,-8($sp)
+lw $s2,-12($sp)
+lw $s3,-16($sp)
+lw $s4,-20($sp)
+lw $s5,-24($sp)
+lw $s6,-28($sp)
+lw $s7,-32($sp)
+lw $fp,-36($sp)
+lw $ra,-40($sp)
+addi $sp,$sp,4
+#calleeSaves have been fetched!
+
+jr $ra
+.data
+L12:
+.word 8
+.asciiz "Somebody"
+.align 2
+.text
+.data
+L11:
+.word 6
+.asciiz "Nobody"
+.align 2
+.text

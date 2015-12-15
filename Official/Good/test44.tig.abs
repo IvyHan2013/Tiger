@@ -1,0 +1,24 @@
+LetExp(
+ DecList(
+  TypeDec(rectype,
+   RecordTy(
+    Fieldlist(
+     name
+     string,
+     true,
+     Fieldlist(
+      id
+      int,
+      true,
+      Fieldlist())))),
+  DecList(
+   VarDec(b,
+    rectype,
+    NilExp(),
+    true),
+   DecList())),
+ SeqExp(
+  ExpList(
+   AssignExp(
+    SimpleVar(b),
+    NilExp()))))

@@ -1,0 +1,148 @@
+# Before canonicalization: 
+SEQ(
+ SEQ(
+  EXP(
+   CONST 0),
+  MOVE(
+   MEM(
+    BINOP(PLUS,
+     TEMP $fp,
+     CONST -4)),
+   CALL(
+    NAME initArray,
+     CONST 0,
+     CONST 10,
+     CONST 0))),
+ EXP(
+  MEM(
+   BINOP(PLUS,
+    TEMP $fp,
+    CONST -4))))
+# After canonicalization: 
+MOVE(
+ TEMP t33,
+ BINOP(PLUS,
+  TEMP $fp,
+  CONST -4))
+MOVE(
+ TEMP t32,
+ CALL(
+  NAME initArray,
+   CONST 0,
+   CONST 10,
+   CONST 0))
+MOVE(
+ MEM(
+  TEMP t33),
+ TEMP t32)
+EXP(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)))
+# Basic Blocks: 
+LABEL L12
+MOVE(
+ TEMP t33,
+ BINOP(PLUS,
+  TEMP $fp,
+  CONST -4))
+MOVE(
+ TEMP t32,
+ CALL(
+  NAME initArray,
+   CONST 0,
+   CONST 10,
+   CONST 0))
+MOVE(
+ MEM(
+  TEMP t33),
+ TEMP t32)
+EXP(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)))
+JUMP(
+ NAME L11)
+LABEL L11
+# Trace Scheduled: 
+LABEL L12
+MOVE(
+ TEMP t33,
+ BINOP(PLUS,
+  TEMP $fp,
+  CONST -4))
+MOVE(
+ TEMP t32,
+ CALL(
+  NAME initArray,
+   CONST 0,
+   CONST 10,
+   CONST 0))
+MOVE(
+ MEM(
+  TEMP t33),
+ TEMP t32)
+EXP(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)))
+JUMP(
+ NAME L11)
+LABEL L11
+# Instructions: 
+
+#Begin to save calleeSaves!!
+addi $sp,$sp,-4
+sw $s0,-4($sp)
+sw $s1,-8($sp)
+sw $s2,-12($sp)
+sw $s3,-16($sp)
+sw $s4,-20($sp)
+sw $s5,-24($sp)
+sw $s6,-28($sp)
+sw $s7,-32($sp)
+sw $fp,-36($sp)
+sw $ra,-40($sp)
+addi $sp,$sp,-40
+#calleeSaves have been saved!
+
+add $fp,$sp,44
+L12:
+addi t34,$fp,-4
+add  t33, t34,  $zero
+li t35,0
+add $a1,t35,$zero
+li t36,10
+add $a0,t36,$zero
+addi $sp,$sp,-4
+li t37,0
+sw t37,0($sp)
+jal  initArray
+addi $sp,$sp,4
+add  t32, $v0,  $zero
+add t38,t33,$zero
+add t39,t32,$zero
+sw t39,0(t38)
+lw t40,-4($fp)
+j L11
+L11:
+
+#Begin to fetch calleeSaves!
+addi $sp,$sp,40
+lw $s0,-4($sp)
+lw $s1,-8($sp)
+lw $s2,-12($sp)
+lw $s3,-16($sp)
+lw $s4,-20($sp)
+lw $s5,-24($sp)
+lw $s6,-28($sp)
+lw $s7,-32($sp)
+lw $fp,-36($sp)
+lw $ra,-40($sp)
+addi $sp,$sp,4
+#calleeSaves have been fetched!
+
+jr $ra

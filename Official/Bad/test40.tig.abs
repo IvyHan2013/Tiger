@@ -1,0 +1,17 @@
+LetExp(
+ DecList(
+  FunctionDec(g
+   Fieldlist(
+    a
+    int,
+    true,
+    Fieldlist()),
+   varExp(
+    SimpleVar(a)),
+   FunctionDec()),
+  DecList()),
+ SeqExp(
+  ExpList(
+   CallExp(g,
+    ExpList(
+     IntExp(2))))))

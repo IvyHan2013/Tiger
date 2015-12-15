@@ -1,0 +1,179 @@
+# Before canonicalization: 
+SEQ(
+ MOVE(
+  TEMP t32,
+  CONST 0),
+ SEQ(
+  MOVE(
+   TEMP t33,
+   CONST 0),
+  SEQ(
+   LABEL L12,
+   SEQ(
+    CJUMP(LE,
+     TEMP t33,
+     CONST 100,
+     L13,L11),
+    SEQ(
+     LABEL L13,
+     SEQ(
+      SEQ(
+       SEQ(
+        MOVE(
+         TEMP t32,
+         BINOP(PLUS,
+          TEMP t32,
+          CONST 1)),
+        EXP(
+         CONST 0)),
+       MOVE(
+        TEMP t33,
+        BINOP(PLUS,
+         TEMP t33,
+         CONST 1))),
+      SEQ(
+       JUMP(
+        NAME L12),
+       LABEL L11)))))))
+# After canonicalization: 
+MOVE(
+ TEMP t32,
+ CONST 0)
+MOVE(
+ TEMP t33,
+ CONST 0)
+LABEL L12
+CJUMP(LE,
+ TEMP t33,
+ CONST 100,
+ L13,L11)
+LABEL L13
+MOVE(
+ TEMP t32,
+ BINOP(PLUS,
+  TEMP t32,
+  CONST 1))
+MOVE(
+ TEMP t33,
+ BINOP(PLUS,
+  TEMP t33,
+  CONST 1))
+JUMP(
+ NAME L12)
+LABEL L11
+# Basic Blocks: 
+LABEL L15
+MOVE(
+ TEMP t32,
+ CONST 0)
+MOVE(
+ TEMP t33,
+ CONST 0)
+JUMP(
+ NAME L12)
+LABEL L12
+CJUMP(LE,
+ TEMP t33,
+ CONST 100,
+ L13,L11)
+LABEL L13
+MOVE(
+ TEMP t32,
+ BINOP(PLUS,
+  TEMP t32,
+  CONST 1))
+MOVE(
+ TEMP t33,
+ BINOP(PLUS,
+  TEMP t33,
+  CONST 1))
+JUMP(
+ NAME L12)
+LABEL L11
+JUMP(
+ NAME L14)
+LABEL L14
+# Trace Scheduled: 
+LABEL L15
+MOVE(
+ TEMP t32,
+ CONST 0)
+MOVE(
+ TEMP t33,
+ CONST 0)
+LABEL L12
+CJUMP(LE,
+ TEMP t33,
+ CONST 100,
+ L13,L11)
+LABEL L11
+JUMP(
+ NAME L14)
+LABEL L13
+MOVE(
+ TEMP t32,
+ BINOP(PLUS,
+  TEMP t32,
+  CONST 1))
+MOVE(
+ TEMP t33,
+ BINOP(PLUS,
+  TEMP t33,
+  CONST 1))
+JUMP(
+ NAME L12)
+LABEL L14
+# Instructions: 
+
+#Begin to save calleeSaves!!
+addi $sp,$sp,0
+sw $s0,-4($sp)
+sw $s1,-8($sp)
+sw $s2,-12($sp)
+sw $s3,-16($sp)
+sw $s4,-20($sp)
+sw $s5,-24($sp)
+sw $s6,-28($sp)
+sw $s7,-32($sp)
+sw $fp,-36($sp)
+sw $ra,-40($sp)
+addi $sp,$sp,-40
+#calleeSaves have been saved!
+
+add $fp,$sp,40
+L15:
+li t35,0
+add  t32, t35,  $zero
+li t36,0
+add  t33, t36,  $zero
+L12:
+add t37,t33,$zero
+li t39,100
+add t38,t39,$zero
+ble t37,t38,L13
+L11:
+j L14
+L13:
+addi t40,t32,1
+add  t32, t40,  $zero
+addi t41,t33,1
+add  t33, t41,  $zero
+j L12
+L14:
+
+#Begin to fetch calleeSaves!
+addi $sp,$sp,40
+lw $s0,-4($sp)
+lw $s1,-8($sp)
+lw $s2,-12($sp)
+lw $s3,-16($sp)
+lw $s4,-20($sp)
+lw $s5,-24($sp)
+lw $s6,-28($sp)
+lw $s7,-32($sp)
+lw $fp,-36($sp)
+lw $ra,-40($sp)
+addi $sp,$sp,0
+#calleeSaves have been fetched!
+
+jr $ra

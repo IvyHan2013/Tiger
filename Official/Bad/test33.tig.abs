@@ -1,0 +1,10 @@
+LetExp(
+ DecList(
+  VarDec(a,
+   RecordExp(rectype,
+    FieldExpList()),
+   true),
+  DecList()),
+ SeqExp(
+  ExpList(
+   IntExp(0))))

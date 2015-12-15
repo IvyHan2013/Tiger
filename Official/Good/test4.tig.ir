@@ -1,0 +1,355 @@
+# Before canonicalization: 
+SEQ(
+ EXP(
+  CONST 0),
+ EXP(
+  CALL(
+   NAME nfactor,
+    TEMP $fp,
+    CONST 10)))
+# After canonicalization: 
+EXP(
+ CALL(
+  NAME nfactor,
+   TEMP $fp,
+   CONST 10))
+# Basic Blocks: 
+LABEL L16
+EXP(
+ CALL(
+  NAME nfactor,
+   TEMP $fp,
+   CONST 10))
+JUMP(
+ NAME L15)
+LABEL L15
+# Trace Scheduled: 
+LABEL L16
+EXP(
+ CALL(
+  NAME nfactor,
+   TEMP $fp,
+   CONST 10))
+JUMP(
+ NAME L15)
+LABEL L15
+# Instructions: 
+
+#Begin to save calleeSaves!!
+addi $sp,$sp,0
+sw $s0,-4($sp)
+sw $s1,-8($sp)
+sw $s2,-12($sp)
+sw $s3,-16($sp)
+sw $s4,-20($sp)
+sw $s5,-24($sp)
+sw $s6,-28($sp)
+sw $s7,-32($sp)
+sw $fp,-36($sp)
+sw $ra,-40($sp)
+addi $sp,$sp,-40
+#calleeSaves have been saved!
+
+add $fp,$sp,40
+L16:
+li t33,10
+add $a0,t33,$zero
+addi $sp,$sp,-4
+sw $fp,0($sp)
+jal  nfactor
+addi $sp,$sp,4
+j L15
+L15:
+
+#Begin to fetch calleeSaves!
+addi $sp,$sp,40
+lw $s0,-4($sp)
+lw $s1,-8($sp)
+lw $s2,-12($sp)
+lw $s3,-16($sp)
+lw $s4,-20($sp)
+lw $s5,-24($sp)
+lw $s6,-28($sp)
+lw $s7,-32($sp)
+lw $fp,-36($sp)
+lw $ra,-40($sp)
+addi $sp,$sp,0
+#calleeSaves have been fetched!
+
+jr $ra
+# Before canonicalization: 
+SEQ(
+ MOVE(
+  MEM(
+   BINOP(PLUS,
+    TEMP $fp,
+    CONST -4)),
+  TEMP $a0),
+ MOVE(
+  TEMP $v0,
+  ESEQ(
+   SEQ(
+    CJUMP(EQ,
+     MEM(
+      BINOP(PLUS,
+       TEMP $fp,
+       CONST -4)),
+     CONST 0,
+     L12,L13),
+    SEQ(
+     SEQ(
+      LABEL L12,
+      SEQ(
+       MOVE(
+        TEMP t32,
+        CONST 1),
+       JUMP(
+        NAME L14))),
+     SEQ(
+      SEQ(
+       LABEL L13,
+       SEQ(
+        MOVE(
+         TEMP t32,
+         BINOP(MUL,
+          MEM(
+           BINOP(PLUS,
+            TEMP $fp,
+            CONST -4)),
+          CALL(
+           NAME nfactor,
+            MEM(
+             TEMP $fp),
+            BINOP(MINUS,
+             MEM(
+              BINOP(PLUS,
+               TEMP $fp,
+               CONST -4)),
+             CONST 1)))),
+        JUMP(
+         NAME L14))),
+      LABEL L14))),
+   TEMP t32)))
+# After canonicalization: 
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)),
+ TEMP $a0)
+CJUMP(EQ,
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)),
+ CONST 0,
+ L12,L13)
+LABEL L12
+MOVE(
+ TEMP t32,
+ CONST 1)
+JUMP(
+ NAME L14)
+LABEL L13
+MOVE(
+ TEMP t35,
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)))
+MOVE(
+ TEMP t34,
+ CALL(
+  NAME nfactor,
+   MEM(
+    TEMP $fp),
+   BINOP(MINUS,
+    MEM(
+     BINOP(PLUS,
+      TEMP $fp,
+      CONST -4)),
+    CONST 1)))
+MOVE(
+ TEMP t32,
+ BINOP(MUL,
+  TEMP t35,
+  TEMP t34))
+JUMP(
+ NAME L14)
+LABEL L14
+MOVE(
+ TEMP $v0,
+ TEMP t32)
+# Basic Blocks: 
+LABEL L18
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)),
+ TEMP $a0)
+CJUMP(EQ,
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)),
+ CONST 0,
+ L12,L13)
+LABEL L12
+MOVE(
+ TEMP t32,
+ CONST 1)
+JUMP(
+ NAME L14)
+LABEL L13
+MOVE(
+ TEMP t35,
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)))
+MOVE(
+ TEMP t34,
+ CALL(
+  NAME nfactor,
+   MEM(
+    TEMP $fp),
+   BINOP(MINUS,
+    MEM(
+     BINOP(PLUS,
+      TEMP $fp,
+      CONST -4)),
+    CONST 1)))
+MOVE(
+ TEMP t32,
+ BINOP(MUL,
+  TEMP t35,
+  TEMP t34))
+JUMP(
+ NAME L14)
+LABEL L14
+MOVE(
+ TEMP $v0,
+ TEMP t32)
+JUMP(
+ NAME L17)
+LABEL L17
+# Trace Scheduled: 
+LABEL L18
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)),
+ TEMP $a0)
+CJUMP(EQ,
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)),
+ CONST 0,
+ L12,L13)
+LABEL L13
+MOVE(
+ TEMP t35,
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)))
+MOVE(
+ TEMP t34,
+ CALL(
+  NAME nfactor,
+   MEM(
+    TEMP $fp),
+   BINOP(MINUS,
+    MEM(
+     BINOP(PLUS,
+      TEMP $fp,
+      CONST -4)),
+    CONST 1)))
+MOVE(
+ TEMP t32,
+ BINOP(MUL,
+  TEMP t35,
+  TEMP t34))
+LABEL L14
+MOVE(
+ TEMP $v0,
+ TEMP t32)
+JUMP(
+ NAME L17)
+LABEL L12
+MOVE(
+ TEMP t32,
+ CONST 1)
+JUMP(
+ NAME L14)
+LABEL L17
+# Instructions: 
+
+#Begin to save calleeSaves!!
+addi $sp,$sp,-4
+sw $s0,-4($sp)
+sw $s1,-8($sp)
+sw $s2,-12($sp)
+sw $s3,-16($sp)
+sw $s4,-20($sp)
+sw $s5,-24($sp)
+sw $s6,-28($sp)
+sw $s7,-32($sp)
+sw $fp,-36($sp)
+sw $ra,-40($sp)
+addi $sp,$sp,-40
+#calleeSaves have been saved!
+
+add $fp,$sp,44
+L18:
+addi t36,$fp,-4
+add t37,$a0, $zero
+sw t37,0( t36)
+lw t41,-4($fp)
+add t39,t41,$zero
+li t42,0
+add t40,t42,$zero
+beq t39,t40,L12
+L13:
+lw t43,-4($fp)
+add  t35, t43,  $zero
+lw t45,-4($fp)
+li t46,1
+sub t44,t45,t46
+add $a0,t44,$zero
+addi $sp,$sp,-4
+lw t47,0($fp)
+sw t47,0($sp)
+jal  nfactor
+addi $sp,$sp,4
+add  t34, $v0,  $zero
+mul t48,t35,t34
+add  t32, t48,  $zero
+L14:
+add  $v0, t32,  $zero
+j L17
+L12:
+li t49,1
+add  t32, t49,  $zero
+j L14
+L17:
+
+#Begin to fetch calleeSaves!
+addi $sp,$sp,40
+lw $s0,-4($sp)
+lw $s1,-8($sp)
+lw $s2,-12($sp)
+lw $s3,-16($sp)
+lw $s4,-20($sp)
+lw $s5,-24($sp)
+lw $s6,-28($sp)
+lw $s7,-32($sp)
+lw $fp,-36($sp)
+lw $ra,-40($sp)
+addi $sp,$sp,4
+#calleeSaves have been fetched!
+
+jr $ra

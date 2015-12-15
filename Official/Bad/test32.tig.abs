@@ -1,0 +1,14 @@
+LetExp(
+ DecList(
+  TypeDec(arrayty,
+   ArrayTy(int)),
+  DecList(
+   VarDec(a,
+    ArrayExp(arrayty,
+     IntExp(10),
+     StringExp( )),
+    true),
+   DecList())),
+ SeqExp(
+  ExpList(
+   IntExp(0))))

@@ -1,0 +1,166 @@
+# Before canonicalization: 
+SEQ(
+ SEQ(
+  EXP(
+   CONST 0),
+  MOVE(
+   TEMP t33,
+   ESEQ(
+    SEQ(
+     MOVE(
+      TEMP t32,
+      CALL(
+       NAME allocRecord,
+        CONST 0,
+        CONST 8)),
+     SEQ(
+      MOVE(
+       MEM(
+        BINOP(PLUS,
+         TEMP t32,
+         CONST 0)),
+       CONST 0),
+      MOVE(
+       MEM(
+        BINOP(PLUS,
+         TEMP t32,
+         CONST 4)),
+       CONST 0))),
+    TEMP t32))),
+ EXP(
+  TEMP t33))
+# After canonicalization: 
+MOVE(
+ TEMP t32,
+ CALL(
+  NAME allocRecord,
+   CONST 0,
+   CONST 8))
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP t32,
+   CONST 0)),
+ CONST 0)
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP t32,
+   CONST 4)),
+ CONST 0)
+MOVE(
+ TEMP t33,
+ TEMP t32)
+EXP(
+ TEMP t33)
+# Basic Blocks: 
+LABEL L12
+MOVE(
+ TEMP t32,
+ CALL(
+  NAME allocRecord,
+   CONST 0,
+   CONST 8))
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP t32,
+   CONST 0)),
+ CONST 0)
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP t32,
+   CONST 4)),
+ CONST 0)
+MOVE(
+ TEMP t33,
+ TEMP t32)
+EXP(
+ TEMP t33)
+JUMP(
+ NAME L11)
+LABEL L11
+# Trace Scheduled: 
+LABEL L12
+MOVE(
+ TEMP t32,
+ CALL(
+  NAME allocRecord,
+   CONST 0,
+   CONST 8))
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP t32,
+   CONST 0)),
+ CONST 0)
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP t32,
+   CONST 4)),
+ CONST 0)
+MOVE(
+ TEMP t33,
+ TEMP t32)
+EXP(
+ TEMP t33)
+JUMP(
+ NAME L11)
+LABEL L11
+# Instructions: 
+
+#Begin to save calleeSaves!!
+addi $sp,$sp,0
+sw $s0,-4($sp)
+sw $s1,-8($sp)
+sw $s2,-12($sp)
+sw $s3,-16($sp)
+sw $s4,-20($sp)
+sw $s5,-24($sp)
+sw $s6,-28($sp)
+sw $s7,-32($sp)
+sw $fp,-36($sp)
+sw $ra,-40($sp)
+addi $sp,$sp,-40
+#calleeSaves have been saved!
+
+add $fp,$sp,40
+L12:
+li t34,8
+add $a0,t34,$zero
+addi $sp,$sp,-4
+li t35,0
+sw t35,0($sp)
+jal  allocRecord
+addi $sp,$sp,4
+add  t32, $v0,  $zero
+addi t36,t32,0
+li t39,0
+add t37,t39, $zero
+sw t37,0( t36)
+addi t40,t32,4
+li t43,0
+add t41,t43, $zero
+sw t41,0( t40)
+add  t33, t32,  $zero
+j L11
+L11:
+
+#Begin to fetch calleeSaves!
+addi $sp,$sp,40
+lw $s0,-4($sp)
+lw $s1,-8($sp)
+lw $s2,-12($sp)
+lw $s3,-16($sp)
+lw $s4,-20($sp)
+lw $s5,-24($sp)
+lw $s6,-28($sp)
+lw $s7,-32($sp)
+lw $fp,-36($sp)
+lw $ra,-40($sp)
+addi $sp,$sp,0
+#calleeSaves have been fetched!
+
+jr $ra

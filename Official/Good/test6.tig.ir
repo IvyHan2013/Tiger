@@ -1,0 +1,382 @@
+# Before canonicalization: 
+SEQ(
+ EXP(
+  CONST 0),
+ EXP(
+  CALL(
+   NAME do_nothing1,
+    TEMP $fp,
+    CONST 0,
+    NAME L14)))
+# After canonicalization: 
+EXP(
+ CALL(
+  NAME do_nothing1,
+   TEMP $fp,
+   CONST 0,
+   NAME L14))
+# Basic Blocks: 
+LABEL L16
+EXP(
+ CALL(
+  NAME do_nothing1,
+   TEMP $fp,
+   CONST 0,
+   NAME L14))
+JUMP(
+ NAME L15)
+LABEL L15
+# Trace Scheduled: 
+LABEL L16
+EXP(
+ CALL(
+  NAME do_nothing1,
+   TEMP $fp,
+   CONST 0,
+   NAME L14))
+JUMP(
+ NAME L15)
+LABEL L15
+# Instructions: 
+
+#Begin to save calleeSaves!!
+addi $sp,$sp,0
+sw $s0,-4($sp)
+sw $s1,-8($sp)
+sw $s2,-12($sp)
+sw $s3,-16($sp)
+sw $s4,-20($sp)
+sw $s5,-24($sp)
+sw $s6,-28($sp)
+sw $s7,-32($sp)
+sw $fp,-36($sp)
+sw $ra,-40($sp)
+addi $sp,$sp,-40
+#calleeSaves have been saved!
+
+add $fp,$sp,40
+L16:
+la t32,L14
+add $a1,t32,$zero
+li t33,0
+add $a0,t33,$zero
+addi $sp,$sp,-4
+sw $fp,0($sp)
+jal  do_nothing1
+addi $sp,$sp,4
+j L15
+L15:
+
+#Begin to fetch calleeSaves!
+addi $sp,$sp,40
+lw $s0,-4($sp)
+lw $s1,-8($sp)
+lw $s2,-12($sp)
+lw $s3,-16($sp)
+lw $s4,-20($sp)
+lw $s5,-24($sp)
+lw $s6,-28($sp)
+lw $s7,-32($sp)
+lw $fp,-36($sp)
+lw $ra,-40($sp)
+addi $sp,$sp,0
+#calleeSaves have been fetched!
+
+jr $ra
+.data
+L14:
+.word 4
+.asciiz "str2"
+.align 2
+.text
+# Before canonicalization: 
+SEQ(
+ MOVE(
+  MEM(
+   BINOP(PLUS,
+    TEMP $fp,
+    CONST -4)),
+  TEMP $a0),
+ EXP(
+  CALL(
+   NAME do_nothing1,
+    MEM(
+     TEMP $fp),
+    MEM(
+     BINOP(PLUS,
+      TEMP $fp,
+      CONST -4)),
+    NAME L13)))
+# After canonicalization: 
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)),
+ TEMP $a0)
+EXP(
+ CALL(
+  NAME do_nothing1,
+   MEM(
+    TEMP $fp),
+   MEM(
+    BINOP(PLUS,
+     TEMP $fp,
+     CONST -4)),
+   NAME L13))
+# Basic Blocks: 
+LABEL L18
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)),
+ TEMP $a0)
+EXP(
+ CALL(
+  NAME do_nothing1,
+   MEM(
+    TEMP $fp),
+   MEM(
+    BINOP(PLUS,
+     TEMP $fp,
+     CONST -4)),
+   NAME L13))
+JUMP(
+ NAME L17)
+LABEL L17
+# Trace Scheduled: 
+LABEL L18
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)),
+ TEMP $a0)
+EXP(
+ CALL(
+  NAME do_nothing1,
+   MEM(
+    TEMP $fp),
+   MEM(
+    BINOP(PLUS,
+     TEMP $fp,
+     CONST -4)),
+   NAME L13))
+JUMP(
+ NAME L17)
+LABEL L17
+# Instructions: 
+
+#Begin to save calleeSaves!!
+addi $sp,$sp,-4
+sw $s0,-4($sp)
+sw $s1,-8($sp)
+sw $s2,-12($sp)
+sw $s3,-16($sp)
+sw $s4,-20($sp)
+sw $s5,-24($sp)
+sw $s6,-28($sp)
+sw $s7,-32($sp)
+sw $fp,-36($sp)
+sw $ra,-40($sp)
+addi $sp,$sp,-40
+#calleeSaves have been saved!
+
+add $fp,$sp,44
+L18:
+addi t34,$fp,-4
+add t35,$a0, $zero
+sw t35,0( t34)
+la t37,L13
+add $a1,t37,$zero
+lw t38,-4($fp)
+add $a0,t38,$zero
+addi $sp,$sp,-4
+lw t39,0($fp)
+sw t39,0($sp)
+jal  do_nothing1
+addi $sp,$sp,4
+j L17
+L17:
+
+#Begin to fetch calleeSaves!
+addi $sp,$sp,40
+lw $s0,-4($sp)
+lw $s1,-8($sp)
+lw $s2,-12($sp)
+lw $s3,-16($sp)
+lw $s4,-20($sp)
+lw $s5,-24($sp)
+lw $s6,-28($sp)
+lw $s7,-32($sp)
+lw $fp,-36($sp)
+lw $ra,-40($sp)
+addi $sp,$sp,4
+#calleeSaves have been fetched!
+
+jr $ra
+.data
+L13:
+.word 3
+.asciiz "str"
+.align 2
+.text
+# Before canonicalization: 
+SEQ(
+ SEQ(
+  MOVE(
+   MEM(
+    BINOP(PLUS,
+     TEMP $fp,
+     CONST -4)),
+   TEMP $a0),
+  MOVE(
+   MEM(
+    BINOP(PLUS,
+     TEMP $fp,
+     CONST -8)),
+   TEMP $a1)),
+ EXP(
+  CALL(
+   NAME do_nothing2,
+    MEM(
+     TEMP $fp),
+    BINOP(PLUS,
+     MEM(
+      BINOP(PLUS,
+       TEMP $fp,
+       CONST -4)),
+     CONST 1))))
+# After canonicalization: 
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)),
+ TEMP $a0)
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -8)),
+ TEMP $a1)
+EXP(
+ CALL(
+  NAME do_nothing2,
+   MEM(
+    TEMP $fp),
+   BINOP(PLUS,
+    MEM(
+     BINOP(PLUS,
+      TEMP $fp,
+      CONST -4)),
+    CONST 1)))
+# Basic Blocks: 
+LABEL L20
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)),
+ TEMP $a0)
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -8)),
+ TEMP $a1)
+EXP(
+ CALL(
+  NAME do_nothing2,
+   MEM(
+    TEMP $fp),
+   BINOP(PLUS,
+    MEM(
+     BINOP(PLUS,
+      TEMP $fp,
+      CONST -4)),
+    CONST 1)))
+JUMP(
+ NAME L19)
+LABEL L19
+# Trace Scheduled: 
+LABEL L20
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -4)),
+ TEMP $a0)
+MOVE(
+ MEM(
+  BINOP(PLUS,
+   TEMP $fp,
+   CONST -8)),
+ TEMP $a1)
+EXP(
+ CALL(
+  NAME do_nothing2,
+   MEM(
+    TEMP $fp),
+   BINOP(PLUS,
+    MEM(
+     BINOP(PLUS,
+      TEMP $fp,
+      CONST -4)),
+    CONST 1)))
+JUMP(
+ NAME L19)
+LABEL L19
+# Instructions: 
+
+#Begin to save calleeSaves!!
+addi $sp,$sp,-8
+sw $s0,-4($sp)
+sw $s1,-8($sp)
+sw $s2,-12($sp)
+sw $s3,-16($sp)
+sw $s4,-20($sp)
+sw $s5,-24($sp)
+sw $s6,-28($sp)
+sw $s7,-32($sp)
+sw $fp,-36($sp)
+sw $ra,-40($sp)
+addi $sp,$sp,-40
+#calleeSaves have been saved!
+
+add $fp,$sp,48
+L20:
+addi t40,$fp,-4
+add t41,$a0, $zero
+sw t41,0( t40)
+addi t43,$fp,-8
+add t44,$a1, $zero
+sw t44,0( t43)
+lw t47,-4($fp)
+addi t46,t47,1
+add $a0,t46,$zero
+addi $sp,$sp,-4
+lw t48,0($fp)
+sw t48,0($sp)
+jal  do_nothing2
+addi $sp,$sp,4
+j L19
+L19:
+
+#Begin to fetch calleeSaves!
+addi $sp,$sp,40
+lw $s0,-4($sp)
+lw $s1,-8($sp)
+lw $s2,-12($sp)
+lw $s3,-16($sp)
+lw $s4,-20($sp)
+lw $s5,-24($sp)
+lw $s6,-28($sp)
+lw $s7,-32($sp)
+lw $fp,-36($sp)
+lw $ra,-40($sp)
+addi $sp,$sp,8
+#calleeSaves have been fetched!
+
+jr $ra

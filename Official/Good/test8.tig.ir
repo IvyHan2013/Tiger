@@ -1,0 +1,178 @@
+# Before canonicalization: 
+SEQ(
+ CJUMP(NE,
+  ESEQ(
+   SEQ(
+    MOVE(
+     TEMP t32,
+     CONST 1),
+    SEQ(
+     CJUMP(GT,
+      CONST 10,
+      CONST 20,
+      L13,L14),
+     SEQ(
+      LABEL L14,
+      SEQ(
+       MOVE(
+        TEMP t32,
+        CONST 0),
+       LABEL L13)))),
+   CONST 0),
+  CONST 0,
+  L11,L12),
+ SEQ(
+  SEQ(
+   LABEL L11,
+   SEQ(
+    EXP(
+     CONST 30),
+    JUMP(
+     NAME L15))),
+  SEQ(
+   SEQ(
+    LABEL L12,
+    SEQ(
+     EXP(
+      CONST 40),
+     JUMP(
+      NAME L15))),
+   LABEL L15)))
+# After canonicalization: 
+MOVE(
+ TEMP t32,
+ CONST 1)
+CJUMP(GT,
+ CONST 10,
+ CONST 20,
+ L13,L14)
+LABEL L14
+MOVE(
+ TEMP t32,
+ CONST 0)
+LABEL L13
+CJUMP(NE,
+ CONST 0,
+ CONST 0,
+ L11,L12)
+LABEL L11
+JUMP(
+ NAME L15)
+LABEL L12
+JUMP(
+ NAME L15)
+LABEL L15
+# Basic Blocks: 
+LABEL L17
+MOVE(
+ TEMP t32,
+ CONST 1)
+CJUMP(GT,
+ CONST 10,
+ CONST 20,
+ L13,L14)
+LABEL L14
+MOVE(
+ TEMP t32,
+ CONST 0)
+JUMP(
+ NAME L13)
+LABEL L13
+CJUMP(NE,
+ CONST 0,
+ CONST 0,
+ L11,L12)
+LABEL L11
+JUMP(
+ NAME L15)
+LABEL L12
+JUMP(
+ NAME L15)
+LABEL L15
+JUMP(
+ NAME L16)
+LABEL L16
+# Trace Scheduled: 
+LABEL L17
+MOVE(
+ TEMP t32,
+ CONST 1)
+CJUMP(GT,
+ CONST 10,
+ CONST 20,
+ L13,L14)
+LABEL L14
+MOVE(
+ TEMP t32,
+ CONST 0)
+LABEL L13
+CJUMP(NE,
+ CONST 0,
+ CONST 0,
+ L11,L12)
+LABEL L12
+LABEL L15
+JUMP(
+ NAME L16)
+LABEL L11
+JUMP(
+ NAME L15)
+LABEL L16
+# Instructions: 
+
+#Begin to save calleeSaves!!
+addi $sp,$sp,0
+sw $s0,-4($sp)
+sw $s1,-8($sp)
+sw $s2,-12($sp)
+sw $s3,-16($sp)
+sw $s4,-20($sp)
+sw $s5,-24($sp)
+sw $s6,-28($sp)
+sw $s7,-32($sp)
+sw $fp,-36($sp)
+sw $ra,-40($sp)
+addi $sp,$sp,-40
+#calleeSaves have been saved!
+
+add $fp,$sp,40
+L17:
+li t33,1
+add  t32, t33,  $zero
+li t36,10
+add t34,t36,$zero
+li t37,20
+add t35,t37,$zero
+bgt t34,t35,L13
+L14:
+li t38,0
+add  t32, t38,  $zero
+L13:
+li t41,0
+add t39,t41,$zero
+li t42,0
+add t40,t42,$zero
+bne t39,t40,L11
+L12:
+L15:
+j L16
+L11:
+j L15
+L16:
+
+#Begin to fetch calleeSaves!
+addi $sp,$sp,40
+lw $s0,-4($sp)
+lw $s1,-8($sp)
+lw $s2,-12($sp)
+lw $s3,-16($sp)
+lw $s4,-20($sp)
+lw $s5,-24($sp)
+lw $s6,-28($sp)
+lw $s7,-32($sp)
+lw $fp,-36($sp)
+lw $ra,-40($sp)
+addi $sp,$sp,0
+#calleeSaves have been fetched!
+
+jr $ra

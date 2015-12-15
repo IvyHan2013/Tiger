@@ -1,0 +1,19 @@
+LetExp(
+ DecList(
+  TypeDec(a,
+   ArrayTy(int),TypeDec(b,
+    NameTy(a))),
+  DecList(
+   VarDec(arr1,
+    a,
+    ArrayExp(b,
+     IntExp(10),
+     IntExp(0)),
+    true),
+   DecList())),
+ SeqExp(
+  ExpList(
+   varExp(
+    SubscriptVar(
+     SimpleVar(arr1),
+     IntExp(2))))))
